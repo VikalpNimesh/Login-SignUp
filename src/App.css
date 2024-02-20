@@ -1,0 +1,24 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+main{
+    background: salmon;
+    padding: 60px;
+}
+ .nav{
+    display: flex;
+    justify-content: space-evenly;
+    gap: 30px;
+ }
+
+ .nav button{
+        padding: 20px 10px ;
+        background: red;
+        color: white;
+        border-radius: 10px;
+        font-size: 16px;
+
+ }
