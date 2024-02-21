@@ -1,33 +1,32 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import "./SignIn.css";
-import  secureLocalStorage  from  "react-secure-storage";
+import secureLocalStorage from "react-secure-storage";
 import { Link, useNavigate } from "react-router-dom";
 
 const SignIn = () => {
   const [username, setusername] = useState("");
-  const [password, setPassword] = useState("")
-  const navigate = useNavigate()
-  const [result, setResult] = useState(false)
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const [result, setResult] = useState(false);
 
+  // console.log(username);
+  const getData = (e) => {
+    e.preventDefault();
 
-  console.log(username);
-  const getData =  (e) => {
-    e.preventDefault()
-    
     try {
-      const localUsername =  secureLocalStorage.getItem('Username');
-      const localPassword =  secureLocalStorage.getItem('Password');
+      const localUsername = secureLocalStorage.getItem("Username");
+      const localPassword = secureLocalStorage.getItem("Password");
 
       // console.log(localUsername,localPassword);
 
-      if(localUsername == username && localPassword == password ){
-        setResult(true)
+      if (localUsername == username && localPassword == password) {
+        setResult(true);
         setTimeout(() => {
-          navigate("/")
-        }, 2000);
+          navigate("/");
+          console.log("going to home page");
+        }, 1000);
       }
     } catch (error) {
-      // setResult(true)
       console.log(error);
     }
   };
@@ -46,15 +45,20 @@ const SignIn = () => {
             placeholder="Enter your Username"
           />
           <label htmlFor="password">Password</label>
-          <input type="password" name="password" id="password" value={password}
-            onChange={(e) => setPassword(e.target.value)} placeholder="Enter your Password"/>
-            
+          <input
+            type="password"
+            name="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter your Password"
+          />
+
           <button type="submit" onClick={getData}>
             Submit
           </button>
           <Link to="/signup">Create a User</Link>
           {result && <h1>Sign In Successfully</h1>}
-
         </form>
       </div>
     </div>

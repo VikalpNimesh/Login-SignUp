@@ -1,42 +1,32 @@
-import { useEffect, useState } from "react";
-import "./App.css";
-import  secureLocalStorage  from  "react-secure-storage";
-import { useNavigate } from "react-router-dom";
+// App.jsx
+import React from "react";
+import { DataProvider } from "./contexts/context";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import Protected from "./components/Protected";
+import SignUp from "./pages/SignUp/SignUp";
+import SignIn from "./pages/SignIn/SignIn";
+import Home from "./pages/home/Home";
+import Landing from "./pages/landing page/Landing";
+import secureLocalStorage from 'react-secure-storage';
 
 const App = () => {
-  const navigate = useNavigate();
-  const [result, setResult] = useState(false);
-  const [user, setUser] = useState(null)
-
-  const logout =  () => {
-    try {
-       secureLocalStorage.removeItem("Username");
-       secureLocalStorage.removeItem("Password");
-       setResult(true)
-      setTimeout(() => {
-        navigate("/signup");
-      }, 2000);
-      setResult(true);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    let username = secureLocalStorage.getItem("Username");
-setUser(username)
-  }, [])
-  
+  const user = secureLocalStorage.getItem("Username");
 
   return (
-    <main>
-      <div className="nav">
-        <button>Home-Page</button>
-        <button onClick={logout}>LogOut</button>
-      </div>
-        {result && <h1>Logout up successfully</h1>}
-        <h1> login as : {user}</h1>
-    </main>
+    <DataProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/landing" element={<Landing />} />
+          <Route path="/signin" element={!user ? <SignIn /> : <Navigate to="/" replace /> } />
+          <Route path="/signup" element={!user ? <SignUp /> : <Navigate to="/" replace /> } />
+          <Route element={<Protected />}>
+            <Route path="/" element={<Home />} />
+            {/* {!user && <Route path="*" element={<Navigate to="/signin" replace />} />} */}
+            {/* {user && <Route path="*" element={<Navigate to="/" replace />} />} */}
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </DataProvider>
   );
 };
 

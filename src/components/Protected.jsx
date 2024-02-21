@@ -1,24 +1,17 @@
 // Protected.jsx
-import React, { useEffect } from "react";
 import secureLocalStorage from "react-secure-storage";
-import { useNavigate } from "react-router-dom";
+import {  Outlet, Navigate } from "react-router-dom";
 
-const Protected = ({ children }) => {
-    const navigate = useNavigate();
+const Protected = ({children}) => {
+  const user = secureLocalStorage.getItem("Username");
+  console.log("protected" ,user);
+  if(!user){
+    return <Navigate to="/landing" replace />
+  }
+  
+  
 
-    useEffect(() => {
-        if (!secureLocalStorage.getItem("Username")) {
-            navigate("/signin");
-        }
-    }, [navigate]); 
-    useEffect(() => {
-        if (secureLocalStorage.getItem("Username")) {
-            navigate("/");
-        }
-    }, [navigate]); 
-
-
-    return secureLocalStorage.getItem("Username") ? children : null;
+  return children ? children : <Outlet /> 
 };
 
 export default Protected;

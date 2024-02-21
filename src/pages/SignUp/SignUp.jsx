@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./SignUp.css";
+// import "../SignIn.css";
 import  secureLocalStorage  from  "react-secure-storage";
 import  {Link, useNavigate}  from "react-router-dom";
 
@@ -8,7 +8,7 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate()
   const [result, setResult] = useState(false)
-  console.log(username);
+  // console.log(username);
   const StoreData =  (e) => {
 e.preventDefault()
     try {
@@ -17,7 +17,7 @@ e.preventDefault()
       setResult(true)
       setTimeout(() => {
         navigate("/signin")
-      }, 2000);      
+      }, 1000);      
     } catch (error) {
       console.log(error);
     }
